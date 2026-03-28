@@ -15,6 +15,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
     normalizationContext: ['groups' => ['product:read']],
     denormalizationContext: ['groups' => ['product:write']]
 )]
+#[ORM\Table(name: "product", indexes: [
+    new ORM\Index(name: "unq_active_sku", columns: ["sku"], options: ["where" => "is_active = true"])
+])]
 #[ORM\EntityListeners(['App\EntityListener\ProductListener'])]
 class Product
 {
@@ -24,11 +27,11 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'product:write'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'product:write'])]
     #[ORM\Column(length: 255)]
     private ?string $sku = null;
 
@@ -36,11 +39,11 @@ class Product
     #[ORM\Column(type: Types::DECIMAL, precision: 12, scale: 3)]
     private ?string $price = null;
 
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'product:write'])]
     #[ORM\Column(length: 5, nullable: true, options: ['default' => 'PLN'])]
     private ?string $currency = null;
 
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'product:write'])]
     #[ORM\Column(type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
     private ?bool $isDeleted = null;
 

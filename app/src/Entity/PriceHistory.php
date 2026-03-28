@@ -11,7 +11,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: PriceHistoryRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['product:read']],
-    denormalizationContext: ['groups' => ['product:write']]
 )]
 class PriceHistory
 {
