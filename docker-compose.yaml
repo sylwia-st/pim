@@ -5,7 +5,7 @@ services:
             args:
                 UID: ${UID}
                 GID: ${GID}
-        container_name: php83
+        container_name: pim_php83
         volumes:
             - ./app:/var/www/html
         depends_on:
@@ -13,7 +13,7 @@ services:
 
     nginx:
         image: nginx:latest
-        container_name: nginx
+        container_name: pim_nginx
         ports:
             - "8080:80"
         volumes:
@@ -24,7 +24,7 @@ services:
 
     db:
         image: postgres:18.0
-        container_name: postgres
+        container_name: pim_postgres
         restart: always
         environment:
             POSTGRES_DB: app
