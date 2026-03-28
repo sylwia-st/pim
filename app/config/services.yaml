@@ -24,3 +24,7 @@ services:
             - { name: doctrine.orm.entity_listener }
         autowire: true
         public: true
+
+    App\EventListener\ProductPriceChangedHandler:
+        tags:
+            - { name: 'messenger.message_handler' }
