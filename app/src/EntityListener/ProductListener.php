@@ -22,7 +22,6 @@ class ProductListener
         $oldPrice = number_format((float)$oldPrice, 3, '.', '');
         $newPrice = number_format((float)$newPrice, 3, '.', '');
         if ($oldPrice === $newPrice) {
-            dump('prices are the same');
             return;
         }
         $history = new PriceHistory();
