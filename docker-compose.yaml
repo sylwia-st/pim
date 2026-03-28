@@ -1,0 +1,43 @@
+services:
+    php:
+        build:
+            context: ./php
+            args:
+                UID: ${UID}
+                GID: ${GID}
+        container_name: php83
+        volumes:
+            - ./app:/var/www/html
+        depends_on:
+            - db
+
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        ports:
+            - "8080:80"
+        volumes:
+            - ./app:/var/www/html
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - php
+
+    db:
+        image: postgres:18.0
+        container_name: postgres
+        restart: always
+        environment:
+            POSTGRES_DB: app
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+        ports:
+            - "5432:5432"
+        volumes:
+            - db_data:/var/lib/postgresql
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U user" ]
+            interval: 5s
+            retries: 5
+
+volumes:
+    db_data:
